@@ -4,6 +4,5 @@
     "board": "esp32:esp32:esp32doit-devkit-v1",
     "programmer": "esptool",
     "sketch": "RDL_Leapfrog_Tadpole_V0\\RDL_Leapfrog_Tadpole_V0.ino",
-    "output": "./build",
-    "monitor_baud": 38400
+    "output": "./build"
 }

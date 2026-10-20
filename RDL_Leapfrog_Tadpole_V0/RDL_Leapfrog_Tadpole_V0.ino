@@ -1,6 +1,6 @@
 // GLOBAL VARIABLES
 
-const float codeVersion = 0.01;
+const float codeVersion = 0.01; // BUG: FreeRTOS is NOT happy about something...
 
 void setup() {
 
