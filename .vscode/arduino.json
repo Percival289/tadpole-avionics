@@ -3,5 +3,7 @@
     "configuration": "FlashFreq=80,UploadSpeed=921600,DebugLevel=none,EraseFlash=none",
     "board": "esp32:esp32:esp32doit-devkit-v1",
     "programmer": "esptool",
-    "sketch": "RDL_Leapfrog_Tadpole_V0\\RDL_Leapfrog_Tadpole_V0.ino"
+    "sketch": "RDL_Leapfrog_Tadpole_V0\\RDL_Leapfrog_Tadpole_V0.ino",
+    "output": "./build",
+    "monitor_baud": 38400
 }

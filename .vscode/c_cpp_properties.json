@@ -13,9 +13,9 @@
             "intelliSenseMode": "gcc-x64",
             "includePath": [
                 "C:\\Users\\crisl\\Documents\\GitHub\\tadpole-avionics\\RDL_Leapfrog_Tadpole_V0",
-                "C:\\Users\\crisl\\AppData\\Local\\arduino15\\packages\\esp32\\tools\\esp32-libs\\3.3.11\\dio_qspi\\include",
-                "C:\\Users\\crisl\\AppData\\Local\\arduino15\\packages\\esp32\\hardware\\esp32\\3.3.11\\cores\\esp32",
-                "C:\\Users\\crisl\\AppData\\Local\\arduino15\\packages\\esp32\\hardware\\esp32\\3.3.11\\variants\\doitESP32devkitV1",
+                "C:\\Users\\crisl\\AppData\\Local\\arduino15\\packages\\esp32\\tools\\esp32-libs\\3.3.12\\dio_qspi\\include",
+                "C:\\Users\\crisl\\AppData\\Local\\arduino15\\packages\\esp32\\hardware\\esp32\\3.3.12\\cores\\esp32",
+                "C:\\Users\\crisl\\AppData\\Local\\arduino15\\packages\\esp32\\hardware\\esp32\\3.3.12\\variants\\doitESP32devkitV1",
                 "C:\\Users\\crisl\\AppData\\Local\\arduino15\\packages\\esp32\\tools\\esp-x32\\2601\\xtensa-esp-elf\\include\\c++\\14.2.0",
                 "C:\\Users\\crisl\\AppData\\Local\\arduino15\\packages\\esp32\\tools\\esp-x32\\2601\\xtensa-esp-elf\\include\\c++\\14.2.0\\xtensa-esp-elf\\esp32",
                 "C:\\Users\\crisl\\AppData\\Local\\arduino15\\packages\\esp32\\tools\\esp-x32\\2601\\xtensa-esp-elf\\include\\c++\\14.2.0\\backward",
@@ -24,7 +24,7 @@
                 "C:\\Users\\crisl\\AppData\\Local\\arduino15\\packages\\esp32\\tools\\esp-x32\\2601\\xtensa-esp-elf\\include"
             ],
             "forcedInclude": [
-                "C:\\Users\\crisl\\AppData\\Local\\arduino15\\packages\\esp32\\hardware\\esp32\\3.3.11\\cores\\esp32\\Arduino.h"
+                "C:\\Users\\crisl\\AppData\\Local\\arduino15\\packages\\esp32\\hardware\\esp32\\3.3.12\\cores\\esp32\\Arduino.h"
             ],
             "cStandard": "c11",
             "cppStandard": "c++11",
