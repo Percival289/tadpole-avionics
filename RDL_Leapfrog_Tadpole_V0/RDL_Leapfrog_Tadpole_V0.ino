@@ -29,6 +29,7 @@ void setup() {
   // Check for test mode
 
   // Initialize sensors
+  Serial.println(F("Starting Sensors..."));
 
   // Check sensor status
 
