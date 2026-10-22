@@ -1,5 +1,14 @@
 // GLOBAL VARIABLES
-const float codeVersion = 0.0; // BUG: FreeRTOS is NOT happy about something...
+const float codeVersion = 0.1; // BUG: FreeRTOS is NOT happy about something...
+
+/*
+Current state of this code:
+
+Built the start of a log system and some basic sensor logic and confirmation. Start of an events system
+Nothing in here is flight-worthy or reviewed but it's all not awful, lots of fixes to be done.
+
+
+*/
 
 #include "declarations.h"
 
