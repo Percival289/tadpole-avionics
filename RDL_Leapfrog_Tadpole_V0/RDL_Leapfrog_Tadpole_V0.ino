@@ -1,4 +1,5 @@
 // GLOBAL VARIABLES
+// Ricky is able to commit
 const float codeVersion = 0.1; // BUG: FreeRTOS is NOT happy about something...
 
 /*
