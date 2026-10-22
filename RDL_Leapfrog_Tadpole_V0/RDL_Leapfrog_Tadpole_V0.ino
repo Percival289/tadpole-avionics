@@ -49,11 +49,17 @@ void setup() {
     Serial.println(F("|             Version 0.0              |"));
     Serial.println(F("========================================"));
 
-    // Define debug color
-    const char* color = settings.useSerialColors ? ansiColors[L_DEBUG] : "";
+    const char* color  = settings.useSerialColors ? ansiColors[L_WARN] : "";
     const char* reset = settings.useSerialColors ? ansiReset : "";
 
-    Serial.printf("\n\n%s------------------------------------------\n", color);
+    Serial.printf("%s\n      *** DEVELOPMENT SOFTWARE ***\n", color);
+    Serial.println("          NOT FLIGHT-QUALIFIED");
+    Serial.printf("          BENCH TEST USE ONLY%s\n", reset);
+
+    // Define debug color
+    color = settings.useSerialColors ? ansiColors[L_DEBUG] : "";
+
+    Serial.printf("\n%s------------------------------------------\n", color);
     Serial.println("        Bench-Test Mode");
     Serial.println("        All flight functions disabled");
     Serial.printf("------------------------------------------%s\n", reset);
