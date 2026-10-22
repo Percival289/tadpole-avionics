@@ -10,6 +10,8 @@ Nothing in here is flight-worthy or reviewed but it's all not awful, lots of fix
 
 */
 
+
+// FIXME is this needed?
 #include "declarations.h"
 
 
@@ -20,10 +22,13 @@ void setup() {
 
   timestamps.bootTime = millis();
 
+
   // ====================
   //   BENCH TEST MODE
   // ====================
 
+
+  // ???
   // Keep from floating active low
   pinMode(pins.testRead, INPUT_PULLUP);
   delay(10);
@@ -63,15 +68,15 @@ void setup() {
   // Check for in-flight recovery (are we already flying and restart)
 
 
-  // Initialize SD card storage
+  // TODO: Initialize SD card storage
 
 
-  // Load settings from SD into EEPROM if available
+  // TODO: Load settings from SD into EEPROM if available
 
 
   // Read pin assignments from EEPROM
   logMessage(L_INFO, "BOOT", "Reading EEPROM...");
-  // read read read
+  // TODO: read read read
 
   // check for uninitialized EEPROM
   // check a value of the EEPROM and see if it's 255 or sumthin
@@ -111,14 +116,15 @@ void setup() {
   // Start other sensors
 
 
+
+  // TODO: line too long
+
   // Summary of sensors on new line
   logMessage(sensors.allOK ? L_INFO : L_ERROR, "SENSORS", sensors.allOK ? "Sensors initialized" : "One or more sensors FAILED, see above");
 
 
   // ABORT if sensors not OK
   if (!sensors.allOK) events.abort = true;
-
-
 
 
 
@@ -164,6 +170,7 @@ void setup() {
 
 
   // Verify status of all sensors again
+  // REVIEW why did I do this twice
   logMessage(sensors.allOK ? L_PASS : L_FAIL, "SENSORS", sensors.allOK ? "OK" : "FAILED");
 
 
@@ -248,7 +255,7 @@ void loop() {
 
 
 // Display log messages for each sensor.
-// BUG: not sure if I like the status value being passed through yet another thing.
+// REVIEW: not sure if I like the status value being passed through yet another thing.
 // tbf this will be logging to a file too. not just serial
 bool checkSensor(const char* name, bool status) {
 
@@ -263,7 +270,7 @@ bool checkSensor(const char* name, bool status) {
 // Display messages on serial monitor, eventually log to file
 void logMessage(alertLevel lvl, const char* src, const char* msg) {
 
-  // BUG: Make this function not even register when not in test mode
+  // REVIEW: Make this function not slow things down when not in test mode
   // Right now it still makes a function call which is not a big issue but unecessary
   
   if (!settings.testMode) return;
@@ -273,6 +280,8 @@ void logMessage(alertLevel lvl, const char* src, const char* msg) {
 
   if (settings.useSerialColors) Serial.print(ansiColors[lvl]); // Set color
 
+
+  // REVIEW need to look at this bs again
   // Don't print pass/fail on new line
   switch (lvl) {
   case L_PASS:
@@ -289,5 +298,5 @@ void logMessage(alertLevel lvl, const char* src, const char* msg) {
   Serial.printf("\n[%6.3f][%s] %-25s", millis() / 1000.0, alertLevelNames[lvl], msg); // Show message
   if (settings.useSerialColors) Serial.print(ansiReset); // Reset colors
 
-  // Eventually log to file
+  // TODO: log to file
 }
