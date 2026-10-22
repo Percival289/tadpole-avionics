@@ -64,19 +64,21 @@ void setup() {
     Serial.println("        All flight functions disabled");
     Serial.printf("------------------------------------------%s\n", reset);
 
-    logMessage(L_INFO, "STARTUP", "Signaling test mode...");
-    // beep beep
+    // beep or something to signal test mode
 
   }
 
 
 
   // Check for in-flight recovery (are we already flying and restart)
+  logMessage(L_INFO, "BOOT", "Checking for hot restart conditions");
 
 
   // TODO: Initialize SD card storage
+  logMessage(L_WARN, "BOOT", "SD card not available");
 
 
+  
   // TODO: Load settings from SD into EEPROM if available
 
 
@@ -279,6 +281,7 @@ void logMessage(alertLevel lvl, const char* src, const char* msg) {
   // REVIEW: Make this function not slow things down when not in test mode
   // Right now it still makes a function call which is not a big issue but unecessary
   
+  // TODO: should not just return, eventually should skip to log to disk and then skip the serial
   if (!settings.testMode) return;
 
   // minLevel allows the selection of errors or warnings only etc.
