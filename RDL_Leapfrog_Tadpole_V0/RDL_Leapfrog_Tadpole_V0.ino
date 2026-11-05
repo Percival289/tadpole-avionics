@@ -11,10 +11,14 @@ Nothing in here is flight-worthy or reviewed but it's all not awful, lots of fix
 
 */
 
+#include "src/core/state.h"
+#include "src/core/logger.h"
+#include "src/devices/imu/lf_mpu6050.h"
 
-// FIXME is this needed?
-#include "declarations.h"
+// Create a new IMU instance at the I2C address of imu1
+MPU6050 imu1(0x68);
 
+ImuData primaryImu;
 
 void setup() {
 
@@ -50,15 +54,15 @@ void setup() {
     Serial.println(F("|             Version 0.0              |"));
     Serial.println(F("========================================"));
 
-    const char* color  = settings.useSerialColors ? ansiColors[L_WARN] : "";
-    const char* reset = settings.useSerialColors ? ansiReset : "";
+    const char* color  = settings.useSerialColors ? ANSI_COLORS[L_WARN] : "";
+    const char* reset = settings.useSerialColors ? ANSI_RESET : "";
 
     Serial.printf("%s\n      *** DEVELOPMENT SOFTWARE ***\n", color);
     Serial.println("          NOT FLIGHT-QUALIFIED");
     Serial.printf("          BENCH TEST USE ONLY%s\n", reset);
 
     // Define debug color
-    color = settings.useSerialColors ? ansiColors[L_DEBUG] : "";
+    color = settings.useSerialColors ? ANSI_COLORS[L_DEBUG] : "";
 
     Serial.printf("\n%s------------------------------------------\n", color);
     Serial.println("        Bench-Test Mode");
@@ -117,9 +121,9 @@ void setup() {
   // Initialize sensors
   logMessage(L_INFO, "SENSORS", "Initializing sensors...");
 
-  
+
   // Start IMU1 and check status
-  sensors.statusAccel = checkSensor("IMU1", beginMPU6050());
+  sensors.statusAccel = checkSensor("IMU1", imu1.begin());
   sensors.allOK &= sensors.statusAccel;
 
   // Start other sensors
@@ -219,6 +223,19 @@ void loop() {
 
 
   // Read sensor data
+  imu1.read(primaryImu);
+
+  char msg[256];
+
+  snprintf(
+      msg,
+      sizeof(msg),
+      "AX:%12.3f AY:%12.3f AZ:%12.3f | GX:%12.3f GY:%12.3f GZ:%12.3f",
+      primaryImu.ax, primaryImu.ay, primaryImu.az,
+      primaryImu.gx, primaryImu.gy, primaryImu.gz
+  );
+
+  //logMessage(L_DEBUG, "IMU1", msg);
 
 
   // Process sensor data
@@ -273,40 +290,4 @@ bool checkSensor(const char* name, bool status) {
   logMessage(status ? L_PASS : L_FAIL, "SENSORS", status ? "OK" : "FAILED");
   return status;
 
-}
-
-
-// Display messages on serial monitor, eventually log to file
-void logMessage(alertLevel lvl, const char* src, const char* msg) {
-
-  // REVIEW: Make this function not slow things down when not in test mode
-  // Right now it still makes a function call which is not a big issue but unecessary
-  
-  // TODO: should not just return, eventually should skip to log to disk and then skip the serial
-  if (!settings.testMode) return;
-
-  // minLevel allows the selection of errors or warnings only etc.
-  if (lvl < settings.minLevel) return;
-
-  if (settings.useSerialColors) Serial.print(ansiColors[lvl]); // Set color
-
-
-  // REVIEW need to look at this bs again
-  // Don't print pass/fail on new line
-  switch (lvl) {
-  case L_PASS:
-  case L_FAIL:
-    Serial.printf("[%s]", msg);
-    if (settings.useSerialColors) Serial.print(ansiReset); // Reset colors
-    return;
-
-  default:
-    break;
-  }
-  
-  // Print log message on newline
-  Serial.printf("\n[%6.3f][%s] %-25s", millis() / 1000.0, alertLevelNames[lvl], msg); // Show message
-  if (settings.useSerialColors) Serial.print(ansiReset); // Reset colors
-
-  // TODO: log to file
 }
