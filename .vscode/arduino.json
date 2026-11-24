@@ -1,7 +1,7 @@
 {
-    "port": "COM4",
-    "configuration": "FlashFreq=80,UploadSpeed=921600,DebugLevel=none,EraseFlash=none",
-    "board": "esp32:esp32:esp32doit-devkit-v1",
+    "port": "COM6",
+    "configuration": "usb=serial,speed=600,opt=o2std,keys=en-us",
+    "board": "teensy:avr:teensy41",
     "programmer": "esptool",
     "sketch": "RDL_Leapfrog_Tadpole_V0\\RDL_Leapfrog_Tadpole_V0.ino",
     "output": "./build"

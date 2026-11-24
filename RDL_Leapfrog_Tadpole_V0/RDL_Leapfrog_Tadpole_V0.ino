@@ -14,16 +14,28 @@ Nothing in here is flight-worthy or reviewed but it's all not awful, lots of fix
 #include "src/core/state.h"
 #include "src/core/logger.h"
 #include "src/devices/imu/lf_mpu6050.h"
+#include "src/simulation/sim_config.h"
+#include "src/simulation/sim_hil.h"
 
 // Create a new IMU instance at the I2C address of imu1
 MPU6050 imu1(0x68);
 
 ImuData primaryImu;
+SimulationLink simulationLink;
 
 void setup() {
 
-  // Start serial communications
+  // Give the host time to open COM6 and capture the normal boot transcript.
+  // The HIL binary protocol does not begin until the boot sequence is done.
+  delay(1000);
+
+  // Start the normal boot console first. Simulation mode switches to the
+  // binary HIL link only after boot and sensor checks complete.
+#if TADPOLE_SIM_TEST
+  Serial.begin(921600);
+#else
   Serial.begin(115200);
+#endif
 
   timestamps.bootTime = millis();
 
@@ -122,9 +134,15 @@ void setup() {
   logMessage(L_INFO, "SENSORS", "Initializing sensors...");
 
 
-  // Start IMU1 and check status
+  // Start IMU1 and check status, unless this is a simulation build.
+#if TADPOLE_SIM_TEST
+  sensors.statusAccel = checkSensor("SIM_HIL", true);
+  sensors.statusGyro = true;
+  sensors.allOK &= sensors.statusAccel;
+#else
   sensors.statusAccel = checkSensor("IMU1", imu1.begin());
   sensors.allOK &= sensors.statusAccel;
+#endif
 
   // Start other sensors
 
@@ -211,6 +229,15 @@ void setup() {
   timestamps.setupCompleteTime = millis();
   // show how long boot took
 
+#if TADPOLE_SIM_TEST
+  // Boot logs and sensor checks are complete. From this point onward the
+  // serial stream is reserved exclusively for binary HIL frames.
+  delay(3000);
+  Serial.println(F("HIL: switching to binary simulation link"));
+  simulationLink.Begin();
+  settings.testMode = false;
+#endif
+
 
 
   // Start countdown (or do we want to put this in loop so it's another condition?)
@@ -222,6 +249,11 @@ void loop() {
   // Update clock
 
 
+#if TADPOLE_SIM_TEST
+  // The simulation adapter feeds primaryImu from AviSim and runs the hover
+  // controller/PID loop against the simulated state.
+  simulationLink.Update(primaryImu);
+#else
   // Read sensor data
   imu1.read(primaryImu);
 
@@ -236,6 +268,7 @@ void loop() {
   );
 
   //logMessage(L_DEBUG, "IMU1", msg);
+#endif
 
 
   // Process sensor data
